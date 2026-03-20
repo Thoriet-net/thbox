@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+
+SCRIPT_PATH="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [ -f "$PROJECT_ROOT/.env" ]; then
+  set -a
+  . "$PROJECT_ROOT/.env"
+  set +a
+fi
+
+if [ -z "$THBOX_SCRIPTS_PATH" ]; then
+  echo "THBOX_SCRIPTS_PATH is not set in .env"
+  exit 1
+fi
+
+# mount only scripts directory
+
+if [ -t 0 ] && [ -t 1 ]; then
+  DOCKER_FLAGS=("-it")
+else
+  DOCKER_FLAGS=("-i")
+fi
+
+docker run --rm "${DOCKER_FLAGS[@]}" \
+  -e HOME=/root \
+  -e THBOX_USER="$(whoami)" \
+  -e THBOX_PROJECT_NAME="$(basename "$THBOX_SCRIPTS_PATH")" \
+  -e SSH_AUTH_SOCK=/ssh-agent \
+  -v "$SSH_AUTH_SOCK:/ssh-agent" \
+  -v "$THBOX_SCRIPTS_PATH:/workspace" \
+  -w /workspace \
+  thbox "$@"

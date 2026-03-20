@@ -1,0 +1,18 @@
+# core
+requests
+python-dotenv
+pydantic
+pyyaml
+rich
+click
+
+# data
+pandas
+numpy
+
+# networking
+paramiko
+netmiko
+napalm
+ncclient
+junos-eznc
