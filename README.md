@@ -16,7 +16,7 @@ The goal is to provide a clean, reproducible execution layer — not a full dev 
 ## ⚡ Quickstart (30 seconds)
 
 ```bash
-git clone https://github.com/<your-username>/thbox.git
+git clone https://github.com/Thoriet-net/thbox.git
 cd thbox
 
 docker build -t thbox .
@@ -51,7 +51,7 @@ thrun
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/<your-username>/thbox.git
+git clone https://github.com/Thoriet-net/thbox.git
 cd thbox
 ```
 
